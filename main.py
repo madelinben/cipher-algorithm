@@ -7,7 +7,7 @@ def menu():
     while True:
         try:
             userInput = int(
-                input("1. Set Person Number: \n2. Encrypt a message: \n3. Decrypt a message: \n4. Quit: \n\nInput: "))
+                input("1. Set Key: \n2. Encrypt a message: \n3. Decrypt a message: \n4. Quit: \n\nInput: "))
         except ValueError:
             print("The value must be an Integer! ")
         else:
@@ -54,7 +54,7 @@ def setKey():
 
         if (len(inputValue) == 6) and (inputValue.isdigit()):
             print("You Identification number was accepted! ")
-            return int(inputValue)
+            KEY = inputValue
             break
         else:
             print("You Identification number was not accepted! \nThe number should be 6 digits in length! ")
@@ -62,11 +62,67 @@ def setKey():
     menu()
 
 
+def createKey():
+    global KEY
+
+    digits = [int(x) for x in str(KEY)]
+    lastDigit = digits[5]
+
+    if lastDigit == 0:
+        digits[0] = digits[0] * 2
+        digits[1] = digits[1] * -1
+        digits[3] = digits[3] * -1
+        digits[5] = digits[5] * -1
+    elif lastDigit == 1:
+        digits[1] = digits[1] * 2
+        digits[2] = digits[2] * -1
+        digits[3] = digits[3] * -1
+    elif lastDigit == 2:
+        digits[2] = digits[2] * 2
+        digits[3] = digits[3] * -1
+        digits[4] = digits[4] * -1
+        digits[5] = digits[5] * -1
+    elif lastDigit == 3:
+        digits[3] = digits[3] * 2
+        digits[0] = digits[0] * -1
+        digits[2] = digits[2] * -1
+        digits[4] = digits[4] * -1
+    elif lastDigit == 4:
+        digits[4] = digits[4] * -2
+        digits[0] = digits[0] * -1
+        digits[1] = digits[1] * -1
+        digits[5] = digits[5] * -1
+    elif lastDigit == 5:
+        digits[5] = digits[5] * 2
+        digits[0] = digits[0] * -1
+        digits[1] = digits[1] * -1
+        digits[2] = digits[2] * -1
+    elif lastDigit == 6:
+        digits[0] = digits[0] * -3
+        digits[1] = digits[1] * -1
+        digits[4] = digits[4] * -1
+        digits[5] = digits[5] * -1
+    elif lastDigit == 7:
+        digits[1] = digits[1] * -3
+        digits[0] = digits[0] * -1
+        digits[2] = digits[2] * -1
+    elif lastDigit == 8:
+        digits[2] = digits[2] * -3
+        digits[0] = digits[0] * -1
+        digits[4] = digits[4] * -1
+    elif lastDigit == 9:
+        digits[3] = digits[3] * -3
+        digits[1] = digits[1] * -1
+        digits[5] = digits[5] * -1
+
+    return digits
+
+
 def cipherMsg(operation):
 
     global KEY
 
-    shiftValue = [int(x) for x in str(KEY)]
+    shiftValue = createKey()
 
     charList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U",
                 "V", "W", "X", "Y", "Z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f",
@@ -77,6 +133,7 @@ def cipherMsg(operation):
     newMessage = []
 
     incValue = 0
+
     try:
         for char in oldMessage:
             charIndex = charList.index(char)
