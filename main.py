@@ -47,7 +47,19 @@ def menu():
 
 
 def setKey():
-    print("SET KEY")
+    global KEY
+
+    while True:
+        inputValue = input("Enter your Student Identity number: ")
+
+        if (len(inputValue) == 6) and (inputValue.isdigit()):
+            print("You Identification number was accepted! ")
+            return int(inputValue)
+            break
+        else:
+            print("You Identification number was not accepted! \nThe number should be 6 digits in length! ")
+
+    menu()
 
 
 def encrypt():
